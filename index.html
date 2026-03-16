@@ -259,46 +259,44 @@
       margin-bottom: 48px;
     }
 
-    .features-grid {
+    .features-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
       margin-bottom: 80px;
     }
 
     @media (max-width: 700px) {
-      .features-grid { grid-template-columns: 1fr; }
+      .features-block { grid-template-columns: 1fr; padding: 32px 24px; }
     }
 
-    .feature-card {
-      background: var(--card-bg);
-      padding: 28px 24px;
-      border: 1px solid var(--border);
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .feature-card:first-child { border-radius: var(--radius) 0 0 0; }
-    .feature-card:nth-child(3) { border-radius: 0 var(--radius) 0 0; }
-    .feature-card:nth-child(4) { border-radius: 0 0 0 var(--radius); }
-    .feature-card:last-child { border-radius: 0 0 var(--radius) 0; }
-
-    .feature-icon {
-      font-size: 1.6rem;
-      margin-bottom: 14px;
-      display: block;
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
     }
 
-    .feature-card h3 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem;
+    .feature-item strong {
+      font-size: 0.9rem;
       font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.01em;
+      color: var(--white);
     }
 
-    .feature-card p {
-      font-size: 0.85rem;
+    .feature-item span {
+      font-size: 0.82rem;
       color: rgba(245,243,239,0.5);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* ── PRIVACY BLOCK ── */
@@ -613,49 +611,46 @@
 
   <!-- FEATURES -->
   <div class="container">
-    <div class="section-label"
-         data-en="Features"
-         data-de="Features">Features</div>
-    <div class="section-title"
-         data-en="Everything you need.&lt;br /&gt;Nothing you don&#39;t."
-         data-de="Alles, was du brauchst.&lt;br /&gt;Nichts, was du nicht brauchst.">Everything you need.<br />Nothing you don't.</div>
-
-    <div class="features-grid">
-      <div class="feature-card">
-        <span class="feature-icon">&#10024;</span>
-        <h3 data-en="NeoMagic" data-de="NeoMagic">NeoMagic</h3>
-        <p data-en="Auto-arrange your photos with one tap. Smart layout, instantly."
-           data-de="Fotos mit einem Tippen automatisch anordnen. Smartes Layout, sofort.">Auto-arrange your photos with one tap. Smart layout, instantly.</p>
+    <div class="features-block">
+      <div>
+        <div class="section-label"
+             data-en="Features"
+             data-de="Features">Features</div>
+        <div class="section-title"
+             data-en="Everything you need.&lt;br /&gt;Nothing you don&#39;t."
+             data-de="Alles, was du brauchst.&lt;br /&gt;Nichts, was du nicht brauchst.">Everything you need.<br />Nothing you don't.</div>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">&#8596;&#65039;</span>
-        <h3 data-en="Drag &amp; Drop" data-de="Drag &amp; Drop">Drag &amp; Drop</h3>
-        <p data-en="Freely arrange and resize images. Snap-to-Size for perfect alignment."
-           data-de="Bilder frei anordnen und skalieren. Einrasten für perfekte Ausrichtung.">Freely arrange and resize images. Snap-to-Size for perfect alignment.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">&#9889;</span>
-        <h3 data-en="Zero Setup" data-de="Sofort loslegen">Zero Setup</h3>
-        <p data-en="No templates or grid selection. Add images and start immediately."
-           data-de="Keine Vorlagen, keine Rasterauswahl. Einfach Bilder hinzufügen und loslegen.">No templates or grid selection. Add images and start immediately.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">&#128190;</span>
-        <h3 data-en="Save Presets" data-de="Einstellungen speichern">Save Presets</h3>
-        <p data-en="Save your favorite settings and reuse them anytime."
-           data-de="Lieblings-Einstellungen speichern und jederzeit wiederverwenden.">Save your favorite settings and reuse them anytime.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">&#8617;&#65039;</span>
-        <h3 data-en="Instant Undo" data-de="Sofort rückgängig">Instant Undo</h3>
-        <p data-en="Made a mistake? Fix it instantly with full undo support."
-           data-de="Fehler gemacht? Sofort rückgängig machen mit vollem Undo-Support.">Made a mistake? Fix it instantly with full undo support.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">&#128228;</span>
-        <h3 data-en="Direct Export" data-de="Direkter Export">Direct Export</h3>
-        <p data-en="Share to any app or save to gallery in one tap."
-           data-de="Mit einem Tippen teilen oder in der Galerie speichern.">Share to any app or save to gallery in one tap.</p>
+      <div class="features-list">
+        <div class="feature-item">
+          <strong data-en="NeoMagic" data-de="NeoMagic">NeoMagic</strong>
+          <span data-en="Auto-arrange your photos with one tap. Smart layout, instantly."
+                data-de="Fotos mit einem Tippen automatisch anordnen. Smartes Layout, sofort.">Auto-arrange your photos with one tap. Smart layout, instantly.</span>
+        </div>
+        <div class="feature-item">
+          <strong data-en="Drag &amp; Drop" data-de="Drag &amp; Drop">Drag &amp; Drop</strong>
+          <span data-en="Freely arrange and resize images. Snap-to-Size for perfect alignment."
+                data-de="Bilder frei anordnen und skalieren. Einrasten für perfekte Ausrichtung.">Freely arrange and resize images. Snap-to-Size for perfect alignment.</span>
+        </div>
+        <div class="feature-item">
+          <strong data-en="Zero Setup" data-de="Sofort loslegen">Zero Setup</strong>
+          <span data-en="No templates or grid selection. Add images and start immediately."
+                data-de="Keine Vorlagen, keine Rasterauswahl. Einfach Bilder hinzufügen und loslegen.">No templates or grid selection. Add images and start immediately.</span>
+        </div>
+        <div class="feature-item">
+          <strong data-en="Save Presets" data-de="Einstellungen speichern">Save Presets</strong>
+          <span data-en="Save your favorite settings and reuse them anytime."
+                data-de="Lieblings-Einstellungen speichern und jederzeit wiederverwenden.">Save your favorite settings and reuse them anytime.</span>
+        </div>
+        <div class="feature-item">
+          <strong data-en="Instant Undo" data-de="Sofort rückgängig">Instant Undo</strong>
+          <span data-en="Made a mistake? Fix it instantly with full undo support."
+                data-de="Fehler gemacht? Sofort rückgängig machen mit vollem Undo-Support.">Made a mistake? Fix it instantly with full undo support.</span>
+        </div>
+        <div class="feature-item">
+          <strong data-en="Direct Export" data-de="Direkter Export">Direct Export</strong>
+          <span data-en="Share to any app or save to gallery in one tap."
+                data-de="Mit einem Tippen teilen oder in der Galerie speichern.">Share to any app or save to gallery in one tap.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -703,7 +698,7 @@
       <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;first collage?&lt;/em&gt;"
           data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'DM Serif Display',serif; color:var(--yellow); font-style:italic;">first collage?</em></h2>
       <p data-en="Free on Google Play. No account needed."
-         data-de="Kostenlos bei Google Play. Kein Account nötig.">Free on Google Play. No account needed.</p>
+         data-de="Kostenlos bei Google Play:">Free on Google Play. No account needed.</p>
       <div class="cta-wrap">
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.docksoft.neocollage" target="_blank" rel="noopener">
           <img src="assets/en/google-play-badge.svg"
