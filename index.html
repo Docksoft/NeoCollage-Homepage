@@ -10,60 +10,17 @@
   <!-- Open Graph -->
   <meta property="og:title" content="NeoCollage – Photo Collage Maker" />
   <meta property="og:description" content="Create stunning photo collages in seconds. No login. No cloud. Made in Germany." />
-  <meta property="og:image" content="assets/og-image.png" />
+  <meta property="og:image" content="https://neocollage.docksoft.de/assets/og-image.png" />
   <meta property="og:url" content="https://neocollage.docksoft.de" />
 
   <link rel="icon" href="assets/neocollage-icon.png" />
 
   <!-- Self-hosted fonts (DSGVO-konform) -->
-  <style>
-    @font-face {
-      font-family: 'DM Serif Display';
-      src: url('assets/fonts/dm-serif-display.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Serif Display';
-      src: url('assets/fonts/dm-serif-display-italic.woff2') format('woff2');
-      font-weight: normal;
-      font-style: italic;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Sans';
-      src: url('assets/fonts/dm-sans-300.woff2') format('woff2');
-      font-weight: 300;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Sans';
-      src: url('assets/fonts/dm-sans-400.woff2') format('woff2');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Sans';
-      src: url('assets/fonts/dm-sans-500.woff2') format('woff2');
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'DM Sans';
-      src: url('assets/fonts/dm-sans-600.woff2') format('woff2');
-      font-weight: 600;
-      font-style: normal;
-      font-display: swap;
-    }
-  </style>
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <!-- Fallback: Google Fonts if self-hosted not available -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Montserrat:wght@500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -130,10 +87,11 @@
     }
 
     .nav-brand span {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
       color: var(--white);
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
     }
 
     .nav-right {
@@ -244,8 +202,8 @@
     .play-badge:hover { transform: translateY(-2px); opacity: 0.88; }
     .play-badge img { height: 60px; display: block; }
 
-    .badge-qr-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-    .qr-code { width: 150px; height: 150px; border-radius: 6px; }
+    .badge-qr-wrap { display: flex; flex-direction: row; align-items: flex-end; gap: 32px; }
+    .qr-code { width: 116px; height: 150px; border-radius: 6px; }
     @media (max-width: 600px) { .qr-code { display: none; } }
 
     .ios-note {
@@ -295,6 +253,7 @@
     .section-title {
       font-family: 'DM Serif Display', serif;
       font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: normal;
       letter-spacing: -0.02em;
       line-height: 1.15;
       margin-bottom: 48px;
@@ -329,8 +288,9 @@
     }
 
     .feature-card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
       margin-bottom: 8px;
       letter-spacing: -0.01em;
     }
@@ -358,13 +318,6 @@
       .privacy-block { grid-template-columns: 1fr; padding: 32px 24px; }
     }
 
-    .privacy-block h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
 
     .privacy-block p {
       font-size: 0.9rem;
@@ -670,7 +623,7 @@
     <div class="features-grid">
       <div class="feature-card">
         <span class="feature-icon">&#10024;</span>
-        <h3 data-en="NeoMagic" data-de="NeoMagie">NeoMagic</h3>
+        <h3 data-en="NeoMagic" data-de="NeoMagic">NeoMagic</h3>
         <p data-en="Auto-arrange your photos with one tap. Smart layout, instantly."
            data-de="Fotos mit einem Tippen automatisch anordnen. Smartes Layout, sofort.">Auto-arrange your photos with one tap. Smart layout, instantly.</p>
       </div>
@@ -714,8 +667,8 @@
         <div class="section-label"
              data-en="Privacy First"
              data-de="Datenschutz zuerst">Privacy First</div>
-        <h2 data-en="Your photos stay&lt;br /&gt;on your device."
-            data-de="Deine Fotos bleiben&lt;br /&gt;auf deinem Gerät.">Your photos stay<br />on your device.</h2>
+        <div class="section-title" data-en="Your photos stay&lt;br /&gt;on your device."
+            data-de="Deine Fotos bleiben&lt;br /&gt;auf deinem Gerät.">Your photos stay<br />on your device.</div>
         <p data-en="NeoCollage requires no internet connection. Your images never leave your phone — no cloud uploads, no tracking, no data collection. Built in Germany with GDPR compliance by design."
            data-de="NeoCollage benötigt keine Internetverbindung. Deine Bilder verlassen dein Handy nie — keine Cloud-Uploads, kein Tracking, keine Datenerfassung. Made in Germany, DSGVO-konform von Anfang an.">NeoCollage requires no internet connection. Your images never leave your phone — no cloud uploads, no tracking, no data collection. Built in Germany with GDPR compliance by design.</p>
       </div>
