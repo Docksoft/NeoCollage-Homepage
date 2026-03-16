@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoCollage – Photo Collage Maker for Android</title>
+  <meta name="description" content="NeoCollage is the free photo collage app for Android. No login, no cloud, no templates required. Made in Germany." />
+  <meta name="keywords" content="photo collage, collage maker, photo grid, image collage, picture collage, Android, kostenlos, Foto Collage" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NeoCollage – Photo Collage Maker" />
+  <meta property="og:description" content="Create stunning photo collages in seconds. No login. No cloud. Made in Germany." />
+  <meta property="og:image" content="assets/og-image.png" />
+  <meta property="og:url" content="https://neocollage.docksoft.de" />
+
+  <link rel="icon" href="assets/icon.png" />
+
+  <!-- Self-hosted fonts (DSGVO-konform) -->
+  <style>
+    @font-face {
+      font-family: 'DM Serif Display';
+      src: url('assets/fonts/dm-serif-display.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Serif Display';
+      src: url('assets/fonts/dm-serif-display-italic.woff2') format('woff2');
+      font-weight: normal;
+      font-style: italic;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('assets/fonts/dm-sans-300.woff2') format('woff2');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('assets/fonts/dm-sans-400.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('assets/fonts/dm-sans-500.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DM Sans';
+      src: url('assets/fonts/dm-sans-600.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <!-- Fallback: Google Fonts if self-hosted not available -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --black:       #0d0d0d;
+      --white:       #f5f3ef;
+      --yellow:      #f5c800;
+      --yellow-dim:  #c9a300;
+      --gray:        #888;
+      --card-bg:     #161616;
+      --border:      rgba(255,255,255,0.07);
+      --radius:      16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+
+    .nav-brand span {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-badge {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--yellow);
+      border: 1px solid var(--yellow-dim);
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    #lang-toggle {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--gray);
+      border: 1px solid var(--border);
+      background: transparent;
+      padding: 4px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    #lang-toggle:hover {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 0 40px; }
+      .hero-visual { order: -1; }
+    }
+
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 5vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--yellow);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(245,243,239,0.65);
+      max-width: 420px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    /* ── CTA BUTTON ── */
+    .cta-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 26px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(245,200,0,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(245,200,0,0.25);
+    }
+
+    .btn-primary svg { width: 20px; height: 20px; }
+
+    .play-badge { display: inline-block; transition: transform 0.2s, opacity 0.2s; }
+    .play-badge:hover { transform: translateY(-2px); opacity: 0.88; }
+    .play-badge img { height: 60px; display: block; }
+
+    .badge-qr-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .qr-code { width: 150px; height: 150px; border-radius: 6px; }
+    @media (max-width: 600px) { .qr-code { display: none; } }
+
+    .ios-note {
+      font-size: 0.78rem;
+      color: var(--gray);
+    }
+
+    /* ── HERO VISUAL ── */
+    .hero-visual {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── TRUST STRIP ── */
+    .trust-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 80px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: rgba(245,243,239,0.55);
+      font-weight: 500;
+    }
+
+    .trust-item span.icon { color: var(--yellow); font-size: 1rem; }
+
+    /* ── FEATURES ── */
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 48px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 80px;
+    }
+
+    @media (max-width: 700px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      padding: 28px 24px;
+      border: 1px solid var(--border);
+    }
+
+    .feature-card:first-child { border-radius: var(--radius) 0 0 0; }
+    .feature-card:nth-child(3) { border-radius: 0 var(--radius) 0 0; }
+    .feature-card:nth-child(4) { border-radius: 0 0 0 var(--radius); }
+    .feature-card:last-child { border-radius: 0 0 var(--radius) 0; }
+
+    .feature-icon {
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card p {
+      font-size: 0.85rem;
+      color: rgba(245,243,239,0.5);
+      line-height: 1.6;
+    }
+
+    /* ── PRIVACY BLOCK ── */
+    .privacy-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+
+    @media (max-width: 700px) {
+      .privacy-block { grid-template-columns: 1fr; padding: 32px 24px; }
+    }
+
+    .privacy-block h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .privacy-block p {
+      font-size: 0.9rem;
+      color: rgba(245,243,239,0.55);
+      line-height: 1.7;
+    }
+
+    .privacy-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .check-mark {
+      width: 22px;
+      height: 22px;
+      background: rgba(245,200,0,0.15);
+      border: 1px solid var(--yellow-dim);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+      color: var(--yellow);
+      margin-top: 1px;
+    }
+
+    /* ── CAROUSEL ── */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      padding-bottom: 36px;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.4s ease;
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      flex-shrink: 0;
+      width: 200px;
+      height: 400px;
+      opacity: 0.4;
+      transform: scale(0.93);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: calc(50% - 18px);
+      transform: translateY(-50%);
+      background: rgba(22,22,22,0.8);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-size: 1.4rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 2;
+      line-height: 1;
+    }
+
+    .carousel-btn:hover { background: rgba(40,40,40,0.95); }
+    .carousel-btn.prev { left: 8px; }
+    .carousel-btn.next { right: 8px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gray);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .dot.active {
+      background: var(--yellow);
+      transform: scale(1.3);
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      text-align: center;
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .final-cta h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .final-cta p {
+      color: var(--gray);
+      margin-bottom: 36px;
+      font-size: 0.95rem;
+    }
+
+    .final-cta .cta-wrap { align-items: center; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    footer a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-copy > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-copy > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-copy > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero-copy > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero-copy > *:nth-child(4) { animation-delay: 0.35s; }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="container">
+    <nav>
+      <a class="nav-brand" href="/">
+        <img src="assets/neocollage-icon.png" alt="NeoCollage Icon" onerror="this.style.display='none'" />
+        <span>NeoCollage</span>
+      </a>
+      <div class="nav-right">
+        <span class="nav-badge">&#127465;&#127466; Made in Germany</span>
+        <button id="lang-toggle">DE</button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO -->
+  <div class="container">
+    <section class="hero">
+      <div class="hero-copy">
+<h1 data-en="Photo collages,&lt;br&gt;&lt;em&gt;done in seconds.&lt;/em&gt;"
+            data-de="Fotocollagen,&lt;br&gt;&lt;em&gt;in Sekunden fertig.&lt;/em&gt;">Photo collages,<br><em>done in seconds.</em></h1>
+        <p class="hero-sub"
+           data-en="NeoCollage is the photo collage app that skips everything that slows you down. No login. No cloud. No templates required."
+           data-de="NeoCollage ist die Foto-Collage-App, die alles weglässt, was dich bremst. Kein Login. Keine Cloud. Keine Vorlagen nötig.">
+          NeoCollage is the photo collage app that skips everything that slows you down.
+          No login. No cloud. No templates required.
+        </p>
+        <div class="cta-wrap">
+          <div class="badge-qr-wrap">
+            <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.docksoft.neocollage" id="download-btn" target="_blank" rel="noopener">
+              <img src="assets/en/google-play-badge.svg"
+                   data-en="assets/en/google-play-badge.svg"
+                   data-de="assets/de/google-play-badge.svg"
+                   alt="Get it on Google Play" />
+            </a>
+            <img src="assets/qr-code.svg" alt="QR Code" class="qr-code" />
+          </div>
+          <span class="ios-note" id="platform-note"></span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="carousel" id="carousel">
+          <div class="carousel-track" id="carousel-track">
+            <div class="carousel-slide active">
+              <img src="assets/en/screenshot-1.png"
+                   data-en="assets/en/screenshot-1.png"
+                   data-de="assets/de/screenshot-1.png"
+                   alt="NeoCollage Screenshot 1" />
+            </div>
+            <div class="carousel-slide">
+              <img src="assets/en/screenshot-2.png"
+                   data-en="assets/en/screenshot-2.png"
+                   data-de="assets/de/screenshot-2.png"
+                   alt="NeoCollage Screenshot 2" />
+            </div>
+            <div class="carousel-slide">
+              <img src="assets/en/screenshot-3.png"
+                   data-en="assets/en/screenshot-3.png"
+                   data-de="assets/de/screenshot-3.png"
+                   alt="NeoCollage Screenshot 3" />
+            </div>
+            <div class="carousel-slide">
+              <img src="assets/en/screenshot-4.png"
+                   data-en="assets/en/screenshot-4.png"
+                   data-de="assets/de/screenshot-4.png"
+                   alt="NeoCollage Screenshot 4" />
+            </div>
+          </div>
+          <button class="carousel-btn prev" id="carousel-prev">&#8249;</button>
+          <button class="carousel-btn next" id="carousel-next">&#8250;</button>
+          <div class="carousel-dots" id="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div class="container">
+    <div class="trust-strip">
+      <div class="trust-item">
+        <span class="icon">&#10003;</span>
+        <span data-en="No login required" data-de="Kein Login nötig">No login required</span>
+      </div>
+      <div class="trust-item">
+        <span class="icon">&#10003;</span>
+        <span data-en="No internet access needed" data-de="Kein Internet benötigt">No internet access needed</span>
+      </div>
+      <div class="trust-item">
+        <span class="icon">&#10003;</span>
+        <span data-en="No subscription traps" data-de="Keine Abo-Fallen">No subscription traps</span>
+      </div>
+      <div class="trust-item">
+        <span class="icon">&#10003;</span>
+        <span data-en="GDPR compliant" data-de="DSGVO-konform">GDPR compliant</span>
+      </div>
+      <div class="trust-item">
+        <span class="icon">&#10003;</span>
+        <span data-en="Free to use" data-de="Kostenlos nutzbar">Free to use</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="container">
+    <div class="section-label"
+         data-en="Features"
+         data-de="Features">Features</div>
+    <div class="section-title"
+         data-en="Everything you need.&lt;br /&gt;Nothing you don&#39;t."
+         data-de="Alles, was du brauchst.&lt;br /&gt;Nichts, was du nicht brauchst.">Everything you need.<br />Nothing you don't.</div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">&#10024;</span>
+        <h3 data-en="NeoMagic" data-de="NeoMagie">NeoMagic</h3>
+        <p data-en="Auto-arrange your photos with one tap. Smart layout, instantly."
+           data-de="Fotos mit einem Tippen automatisch anordnen. Smartes Layout, sofort.">Auto-arrange your photos with one tap. Smart layout, instantly.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#8596;&#65039;</span>
+        <h3 data-en="Drag &amp; Drop" data-de="Drag &amp; Drop">Drag &amp; Drop</h3>
+        <p data-en="Freely arrange and resize images. Snap-to-Size for perfect alignment."
+           data-de="Bilder frei anordnen und skalieren. Einrasten für perfekte Ausrichtung.">Freely arrange and resize images. Snap-to-Size for perfect alignment.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#9889;</span>
+        <h3 data-en="Zero Setup" data-de="Sofort loslegen">Zero Setup</h3>
+        <p data-en="No templates or grid selection. Add images and start immediately."
+           data-de="Keine Vorlagen, keine Rasterauswahl. Einfach Bilder hinzufügen und loslegen.">No templates or grid selection. Add images and start immediately.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128190;</span>
+        <h3 data-en="Save Presets" data-de="Einstellungen speichern">Save Presets</h3>
+        <p data-en="Save your favorite settings and reuse them anytime."
+           data-de="Lieblings-Einstellungen speichern und jederzeit wiederverwenden.">Save your favorite settings and reuse them anytime.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#8617;&#65039;</span>
+        <h3 data-en="Instant Undo" data-de="Sofort rückgängig">Instant Undo</h3>
+        <p data-en="Made a mistake? Fix it instantly with full undo support."
+           data-de="Fehler gemacht? Sofort rückgängig machen mit vollem Undo-Support.">Made a mistake? Fix it instantly with full undo support.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128228;</span>
+        <h3 data-en="Direct Export" data-de="Direkter Export">Direct Export</h3>
+        <p data-en="Share to any app or save to gallery in one tap."
+           data-de="Mit einem Tippen teilen oder in der Galerie speichern.">Share to any app or save to gallery in one tap.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="container">
+    <div class="privacy-block">
+      <div>
+        <div class="section-label"
+             data-en="Privacy First"
+             data-de="Datenschutz zuerst">Privacy First</div>
+        <h2 data-en="Your photos stay&lt;br /&gt;on your device."
+            data-de="Deine Fotos bleiben&lt;br /&gt;auf deinem Gerät.">Your photos stay<br />on your device.</h2>
+        <p data-en="NeoCollage requires no internet connection. Your images never leave your phone — no cloud uploads, no tracking, no data collection. Built in Germany with GDPR compliance by design."
+           data-de="NeoCollage benötigt keine Internetverbindung. Deine Bilder verlassen dein Handy nie — keine Cloud-Uploads, kein Tracking, keine Datenerfassung. Made in Germany, DSGVO-konform von Anfang an.">NeoCollage requires no internet connection. Your images never leave your phone — no cloud uploads, no tracking, no data collection. Built in Germany with GDPR compliance by design.</p>
+      </div>
+      <div class="privacy-checks">
+        <div class="check-item">
+          <div class="check-mark">&#10003;</div>
+          <span data-en="No internet access required" data-de="Kein Internet benötigt">No internet access required</span>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">&#10003;</div>
+          <span data-en="No cloud uploads" data-de="Keine Cloud-Uploads">No cloud uploads</span>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">&#10003;</div>
+          <span data-en="No account or login" data-de="Kein Account, kein Login">No account or login</span>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">&#10003;</div>
+          <span data-en="No tracking or analytics" data-de="Kein Tracking, keine Analysen">No tracking or analytics</span>
+        </div>
+        <div class="check-item">
+          <div class="check-mark">&#10003;</div>
+          <span data-en="GDPR compliant · Made in Germany &#127465;&#127466;" data-de="DSGVO-konform · Made in Germany &#127465;&#127466;">GDPR compliant · Made in Germany &#127465;&#127466;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="container">
+    <div class="final-cta">
+      <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;first collage?&lt;/em&gt;"
+          data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'DM Serif Display',serif; color:var(--yellow); font-style:italic;">first collage?</em></h2>
+      <p data-en="Free on Google Play. No account needed."
+         data-de="Kostenlos bei Google Play. Kein Account nötig.">Free on Google Play. No account needed.</p>
+      <div class="cta-wrap">
+        <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.docksoft.neocollage" target="_blank" rel="noopener">
+          <img src="assets/en/google-play-badge.svg"
+               data-en="assets/en/google-play-badge.svg"
+               data-de="assets/de/google-play-badge.svg"
+               alt="Get it on Google Play" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="container">
+    <footer>
+      <p>&#169; 2026 NeoCollage &nbsp;&#183;&nbsp; <span style="opacity:0.5">A Docksoft App</span></p>
+      <div class="footer-links">
+        <a href="https://sites.google.com/view/neoc-policy/privacy_policy" target="_blank" rel="noopener"
+           data-en="Privacy Policy" data-de="Datenschutz">Privacy Policy</a>
+        <a href="impressum.html"
+           data-en="Legal Notice" data-de="Impressum">Legal Notice</a>
+        <a href="mailto:hello@docksoft.de">hello@docksoft.de</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ── LANGUAGE ──
+    var savedLang = localStorage.getItem('lang') || 'en';
+    setLang(savedLang);
+
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      localStorage.setItem('lang', lang);
+      document.getElementById('lang-toggle').textContent = lang === 'en' ? 'DE' : 'EN';
+
+      document.querySelectorAll('[data-en]').forEach(function(el) {
+        if (el.tagName === 'IMG') {
+          el.src = el.dataset[lang];
+        } else {
+          el.innerHTML = el.dataset[lang];
+        }
+      });
+
+    }
+
+    document.getElementById('lang-toggle').addEventListener('click', function() {
+      setLang(document.documentElement.lang === 'en' ? 'de' : 'en');
+    });
+
+    // ── DEVICE DETECTION ──
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    var isAndroid = /Android/.test(navigator.userAgent);
+    var note = document.getElementById('platform-note');
+    var dlBtn = document.getElementById('download-btn');
+
+    if (isIOS) {
+      dlBtn.style.opacity = '0.4';
+      dlBtn.style.pointerEvents = 'none';
+      note.textContent = 'Android only · iOS version not available yet';
+    }
+
+    // ── CAROUSEL ──
+    var track = document.getElementById('carousel-track');
+    var dots = document.querySelectorAll('#carousel-dots .dot');
+    var carouselEl = document.getElementById('carousel');
+    var current = 0;
+    var autoInterval = setInterval(autoAdvance, 3000);
+
+    function showSlide(n) {
+      current = ((n % 4) + 4) % 4;
+
+      document.querySelectorAll('.carousel-slide').forEach(function(s, i) {
+        s.classList.toggle('active', i === current);
+      });
+
+      var containerWidth = carouselEl.offsetWidth;
+      var slideWidth = 220; // 200px + 20px gap
+      var offset = (containerWidth / 2) - 100 - current * slideWidth;
+      track.style.transform = 'translateX(' + offset + 'px)';
+
+      dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+    }
+
+    showSlide(0);
+
+    window.addEventListener('resize', function() { showSlide(current); });
+
+    function autoAdvance() { showSlide(current + 1); }
+
+    document.getElementById('carousel-prev').addEventListener('click', function() {
+      clearInterval(autoInterval);
+      showSlide(current - 1);
+      autoInterval = setInterval(autoAdvance, 3000);
+    });
+
+    document.getElementById('carousel-next').addEventListener('click', function() {
+      clearInterval(autoInterval);
+      showSlide(current + 1);
+      autoInterval = setInterval(autoAdvance, 3000);
+    });
+
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        clearInterval(autoInterval);
+        showSlide(i);
+        autoInterval = setInterval(autoAdvance, 3000);
+      });
+    });
+
+    carouselEl.addEventListener('mouseenter', function() { clearInterval(autoInterval); });
+    carouselEl.addEventListener('mouseleave', function() {
+      autoInterval = setInterval(autoAdvance, 3000);
+    });
+
+    // Touch swipe
+    var touchStartX = 0;
+    carouselEl.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carouselEl.addEventListener('touchend', function(e) {
+      var delta = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(delta) > 50) {
+        clearInterval(autoInterval);
+        showSlide(delta > 0 ? current + 1 : current - 1);
+        autoInterval = setInterval(autoAdvance, 3000);
+      }
+    });
+  </script>
+
+</body>
+</html>

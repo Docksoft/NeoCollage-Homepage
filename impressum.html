@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum – NeoCollage / Docksoft</title>
+  <link rel="icon" href="assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0d0d0d; --white: #f5f3ef; --yellow: #f5c800;
+      --gray: #888; --card-bg: #161616; --border: rgba(255,255,255,0.07);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; line-height: 1.7;
+    }
+    .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+    nav {
+      padding: 24px 0; display: flex; align-items: center;
+      justify-content: space-between; border-bottom: 1px solid var(--border);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--white); }
+    .nav-brand img { width: 32px; height: 32px; border-radius: 6px; }
+    .nav-brand span { font-family: 'DM Serif Display', serif; font-size: 1.1rem; }
+    .back-link { font-size: 0.85rem; color: var(--gray); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { padding: 60px 0 80px; }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .subtitle { color: var(--gray); font-size: 0.9rem; margin-bottom: 48px; }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem; color: var(--yellow);
+      margin: 36px 0 12px;
+      letter-spacing: -0.01em;
+    }
+    p, address { font-size: 0.95rem; color: rgba(245,243,239,0.75); font-style: normal; }
+    a { color: var(--yellow); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px; margin-top: 12px;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0; font-size: 0.8rem; color: var(--gray);
+    }
+    footer a { color: var(--gray); }
+    footer a:hover { color: var(--white); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a class="nav-brand" href="/">
+        <img src="assets/neocollage-icon.png" alt="NeoCollage" />
+        <span>NeoCollage</span>
+      </a>
+      <a class="back-link" href="/">← NeoCollage</a>
+    </nav>
+
+    <main>
+      <h1>Impressum</h1>
+      <p class="subtitle">Angaben gemäß § 5 TMG</p>
+
+      <div class="card">
+        <address>
+          <strong>Benedict Meier</strong><br />
+          Kiebitzstr. 5<br />
+          22089 Hamburg<br />
+          Deutschland
+        </address>
+      </div>
+
+      <h2>Kontakt</h2>
+      <p>
+        E-Mail: <a href="mailto:hello@docksoft.de">hello@docksoft.de</a><br />
+        Datenschutz: <a href="mailto:privacy@docksoft.de">privacy@docksoft.de</a>
+      </p>
+
+      <h2>Datenschutzerklärung</h2>
+      <p>
+        Die Datenschutzerklärung für NeoCollage ist unter folgendem Link abrufbar:<br />
+        <a href="https://sites.google.com/view/neoc-policy/privacy_policy" target="_blank" rel="noopener">
+          sites.google.com/view/neoc-policy/privacy_policy
+        </a>
+      </p>
+
+      <h2>Haftungsausschluss</h2>
+      <p>
+        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte
+        externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber
+        verantwortlich.
+      </p>
+
+      <h2>Legal Notice (English)</h2>
+      <p>
+        Responsible for content according to § 5 TMG (German Telemedia Act):<br /><br />
+        Benedict Meier · Kiebitzstr. 5 · 22089 Hamburg · Germany<br />
+        E-mail: <a href="mailto:hello@docksoft.de">hello@docksoft.de</a>
+      </p>
+    </main>
+
+    <footer>
+      <a href="/">← Back to NeoCollage</a> &nbsp;·&nbsp;
+      <a href="https://sites.google.com/view/neoc-policy/privacy_policy" target="_blank" rel="noopener">Privacy Policy</a>
+    </footer>
+  </div>
+</body>
+</html>
