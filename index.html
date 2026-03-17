@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>NeoCollage – Photo Collage Maker for Android</title>
   <meta name="description" content="NeoCollage is the free photo collage app for Android. No login, no cloud, no templates required. Made in Germany." />
   <meta name="keywords" content="photo collage, collage maker, photo grid, image collage, picture collage, Android, kostenlos, Foto Collage" />
@@ -101,6 +101,9 @@
     }
 
     .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
       font-size: 0.72rem;
       font-weight: 500;
       color: var(--yellow);
@@ -126,9 +129,11 @@
       font-family: 'DM Sans', sans-serif;
     }
 
-    #lang-toggle:hover {
-      color: var(--white);
-      border-color: rgba(255,255,255,0.2);
+    @media (hover: hover) {
+      #lang-toggle:hover {
+        color: var(--white);
+        border-color: rgba(255,255,255,0.2);
+      }
     }
 
     /* ── HERO ── */
@@ -191,15 +196,17 @@
       box-shadow: 0 0 0 0 rgba(245,200,0,0.4);
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(245,200,0,0.25);
+    @media (hover: hover) {
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px rgba(245,200,0,0.25);
+      }
     }
 
     .btn-primary svg { width: 20px; height: 20px; }
 
     .play-badge { display: inline-block; transition: transform 0.2s, opacity 0.2s; }
-    .play-badge:hover { transform: translateY(-2px); opacity: 0.88; }
+    @media (hover: hover) { .play-badge:hover { transform: translateY(-2px); opacity: 0.88; } }
     .play-badge img { height: 60px; display: block; }
 
     .badge-qr-wrap { display: flex; flex-direction: row; align-items: flex-end; gap: 32px; }
@@ -355,6 +362,7 @@
     .carousel {
       position: relative;
       overflow: hidden;
+      -webkit-user-select: none;
       user-select: none;
       padding-bottom: 36px;
     }
@@ -373,6 +381,7 @@
       opacity: 0.4;
       transform: scale(0.93);
       transition: opacity 0.4s, transform 0.4s;
+      will-change: transform, opacity;
     }
 
     .carousel-slide.active {
@@ -408,7 +417,7 @@
       line-height: 1;
     }
 
-    .carousel-btn:hover { background: rgba(40,40,40,0.95); }
+    @media (hover: hover) { .carousel-btn:hover { background: rgba(40,40,40,0.95); } }
     .carousel-btn.prev { left: 8px; }
     .carousel-btn.next { right: 8px; }
 
@@ -428,6 +437,7 @@
       background: var(--gray);
       cursor: pointer;
       transition: background 0.2s, transform 0.2s;
+      will-change: transform;
     }
 
     .dot.active {
@@ -480,7 +490,7 @@
       transition: color 0.2s;
     }
 
-    footer a:hover { color: var(--white); }
+    @media (hover: hover) { footer a:hover { color: var(--white); } }
 
     .footer-links { display: flex; gap: 20px; }
 
@@ -497,6 +507,12 @@
     .hero-copy > *:nth-child(2) { animation-delay: 0.15s; }
     .hero-copy > *:nth-child(3) { animation-delay: 0.25s; }
     .hero-copy > *:nth-child(4) { animation-delay: 0.35s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .hero-copy > * { animation: none; }
+      .carousel-track { transition: none; }
+    }
 
   </style>
 </head>
