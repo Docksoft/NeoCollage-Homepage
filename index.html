@@ -168,6 +168,11 @@
       margin-bottom: 20px;
     }
 
+    /* Inter hat keinen Kursivschnitt. <em> ist im Browser kursiv, also wuerde er die
+       Buchstaben synthetisch neigen — auch bei Text, den setLang() als innerHTML aus den
+       data-Attributen einsetzt. Deshalb hier und nicht nur im Inline-Style. */
+    em { font-style: normal; }
+
     h1 em {
       /* <em> ist im Browser kursiv, und Inter hat keinen Kursivschnitt — der Browser
          wuerde die Buchstaben synthetisch neigen. Der Akzent traegt ueber die Farbe. */
@@ -806,8 +811,8 @@
   <!-- FINAL CTA -->
   <div class="container">
     <div class="final-cta">
-      <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; color:var(--yellow);'&gt;first collage?&lt;/em&gt;"
-          data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; color:var(--yellow);'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'Inter',sans-serif; font-style:normal; color:var(--yellow);">first collage?</em></h2>
+      <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; font-style:normal; color:var(--yellow);'&gt;first collage?&lt;/em&gt;"
+          data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; font-style:normal; color:var(--yellow);'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'Inter',sans-serif; font-style:normal; color:var(--yellow);">first collage?</em></h2>
       <p data-en="Free on Google Play. No account needed."
          data-de="Kostenlos bei Google Play:">Free on Google Play:</p>
       <div class="cta-wrap">
