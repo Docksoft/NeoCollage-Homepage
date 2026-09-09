@@ -849,7 +849,17 @@
 
   <script>
     // ── LANGUAGE ──
-    var savedLang = localStorage.getItem('lang') || 'en';
+    // Ohne gespeicherte Wahl entscheidet die Browsersprache. GitHub Pages kennt keine
+    // Serverlogik und damit keine Herkunft; navigator.languages ist das, was der Browser
+    // ohnehin bei jeder Anfrage mitschickt. Eine getroffene Wahl schlaegt die Erkennung,
+    // weil sie in localStorage steht und hier zuerst gelesen wird.
+    var savedLang = localStorage.getItem('lang');
+    if (!savedLang) {
+      var browserLangs = navigator.languages || [navigator.language || 'en'];
+      savedLang = browserLangs.some(function (l) {
+        return String(l).toLowerCase().indexOf('de') === 0;
+      }) ? 'de' : 'en';
+    }
     setLang(savedLang);
 
     function setLang(lang) {
