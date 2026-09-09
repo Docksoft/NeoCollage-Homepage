@@ -18,9 +18,6 @@
   <!-- Self-hosted fonts (DSGVO-konform) -->
   <link rel="stylesheet" href="assets/fonts/fonts.css" />
   <!-- Fallback: Google Fonts if self-hosted not available -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Montserrat:wght@500&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -46,7 +43,7 @@
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 400;
       line-height: 1.6;
       overflow-x: hidden;
@@ -92,7 +89,7 @@
     }
 
     .nav-brand span {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 1.1rem;
       font-weight: 500;
       color: var(--white);
@@ -132,7 +129,7 @@
       text-transform: uppercase;
       cursor: pointer;
       transition: color 0.2s, border-color 0.2s;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     @media (hover: hover) {
@@ -162,15 +159,19 @@
 
 
     h1 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(2.6rem, 5vw, 3.8rem);
       line-height: 1.08;
-      letter-spacing: -0.02em;
+      /* Schnitt der Wortmarke aus der Feature-Grafik: Inter 700, -0.01em. */
+      font-weight: 700;
+      letter-spacing: -0.01em;
       margin-bottom: 20px;
     }
 
     h1 em {
-      font-style: italic;
+      /* <em> ist im Browser kursiv, und Inter hat keinen Kursivschnitt — der Browser
+         wuerde die Buchstaben synthetisch neigen. Der Akzent traegt ueber die Farbe. */
+      font-style: normal;
       color: var(--yellow);
     }
 
@@ -196,7 +197,7 @@
       gap: 10px;
       background: var(--yellow);
       color: var(--black);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
       font-size: 0.95rem;
       padding: 14px 26px;
@@ -270,10 +271,10 @@
     }
 
     .section-title {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      font-weight: normal;
-      letter-spacing: -0.02em;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       line-height: 1.15;
       margin-bottom: 48px;
     }
@@ -542,9 +543,10 @@
     }
 
     .final-cta h2 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Inter', sans-serif;
       font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.02em;
+      font-weight: 700;
+      letter-spacing: -0.01em;
       margin-bottom: 12px;
     }
 
@@ -804,8 +806,8 @@
   <!-- FINAL CTA -->
   <div class="container">
     <div class="final-cta">
-      <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;first collage?&lt;/em&gt;"
-          data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:DM Serif Display,serif; color:var(--yellow); font-style:italic;'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'DM Serif Display',serif; color:var(--yellow); font-style:italic;">first collage?</em></h2>
+      <h2 data-en="Ready to make your&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; color:var(--yellow);'&gt;first collage?&lt;/em&gt;"
+          data-de="Bereit für deine&lt;br /&gt;&lt;em style='font-family:Inter,sans-serif; color:var(--yellow);'&gt;erste Collage?&lt;/em&gt;">Ready to make your<br /><em style="font-family:'Inter',sans-serif; font-style:normal; color:var(--yellow);">first collage?</em></h2>
       <p data-en="Free on Google Play. No account needed."
          data-de="Kostenlos bei Google Play:">Free on Google Play:</p>
       <div class="cta-wrap">
